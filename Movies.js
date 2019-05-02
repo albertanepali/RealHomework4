@@ -37,5 +37,6 @@ var MoviesSchema = new Schema({
         required: false
     }
 });
+
 // return the model
 module.exports = mongoose.model('Movies', MoviesSchema);
