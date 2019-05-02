@@ -333,10 +333,5 @@ router.route('/movie/:movieid')
     });
 
 
-
-
-
-
-
 app.use('/', router);
 app.listen(process.env.PORT || 5000);
