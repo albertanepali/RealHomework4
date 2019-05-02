@@ -3,7 +3,6 @@ let express = require('express');
 let cors = require('cors');
 let app = express();
 app.use(cors());
-let app = express();
 let bodyParser = require('body-parser');
 let passport = require('passport');
 let authJwtController = require('./auth_jwt');
