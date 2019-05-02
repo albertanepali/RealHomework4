@@ -28,11 +28,11 @@ var MoviesSchema = new Schema({
             type: Array,
             required: true,
         },
-    ImageUrl:{
+    ImageURL:{
         type: String,
         required: true,
     },
-    averageRating: {
+    AvgRating: {
         type: Number,
         required: false
     }
