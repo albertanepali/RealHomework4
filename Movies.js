@@ -28,6 +28,7 @@ var MoviesSchema = new Schema({
             type: Array,
             required: true,
         },
+
     ImageURL:{
         type: String,
         required: true,
