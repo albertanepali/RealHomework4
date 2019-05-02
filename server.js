@@ -1,4 +1,8 @@
+
 let express = require('express');
+let cors = require('cors');
+let app = express();
+app.use(cors());
 let app = express();
 let bodyParser = require('body-parser');
 let passport = require('passport');
@@ -13,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 
-var router = express.Router();
+var router = express.Router()
 
 router.route('/postjwt')
     .post(authJwtController.isAuthenticated, function (req, res) {
@@ -254,7 +258,85 @@ app.route('/movies')
                 }
             })
         }
+    })
+
+app.route('/movie')
+    .get(authJwtController.isAuthenticated, function (req, res) {
+        Movie.find(function (err, movie) {
+            if(err) res.json({message: "Something broke", error: err});
+            if (req.query.reviews === 'true'){
+                Movie.aggregate([
+                    {
+                        $lookup:{
+                            from: 'comments',
+                            localField: 'title',
+                            foreignField: 'title',
+                            as: 'Reviews'
+                        }
+                    },
+                    {
+                        $sort : { averageRating : -1} }
+
+                ],function(err, data) {
+
+                    if(err){
+                        res.send(err);
+                    }else{
+                        res.json(data);
+                    }
+                });
+            } else {
+                res.json(movie);
+            }
+        })
     });
+
+
+
+
+router.route('/movie/:movieid')
+    .get(authJwtController.isAuthenticated, function (req, res) {
+        var id = req.params.movieid;
+        Movie.findById(id, function (err, movie) {
+            if (err) {
+                res.json({message: "Movie not found"});
+            }
+            else {
+                if (req.query.reviews === 'true'){
+
+                    Movie.aggregate([
+                        {
+                            $match: {'title': req.query.title}
+                        },
+
+                        {
+                            $lookup:{
+                                from: 'comments',
+                                localField: 'title',
+                                foreignField: 'title',
+                                as: 'Reviews'
+                            }
+                        }
+                    ],function(err, data) {
+
+                        if(err){
+                            res.send(err);
+                        }else{
+                            res.json(data);
+                        }
+                    });
+                } else {
+                    res.json(movie);
+                }
+            }
+        })
+    });
+
+
+
+
+
+
 
 app.use('/', router);
 app.listen(process.env.PORT || 5000);
