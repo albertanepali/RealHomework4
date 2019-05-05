@@ -16,7 +16,7 @@ var MoviesSchema = new Schema({
     },
     YearRelease:
         {
-            type: Number,
+            type: Date,
             required: true,
         },
     genre: {type: String,
@@ -28,16 +28,14 @@ var MoviesSchema = new Schema({
             type: Array,
             required: true,
         },
-
-    ImageURL:{
+    ImageUrl:{
         type: String,
         required: true,
     },
-    AvgRating: {
+    averageRating: {
         type: Number,
         required: false
-    }
+    },
 });
-
 // return the model
 module.exports = mongoose.model('Movies', MoviesSchema);
