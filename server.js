@@ -277,7 +277,7 @@ app.route('/movie')
                         }
                     },
                     {
-                        $sort : { averageRating : -1} }
+                        $sort : { AvgRating : -1} }
 
                 ],function(err, data) {
 
