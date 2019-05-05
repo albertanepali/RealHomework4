@@ -16,7 +16,7 @@ var MoviesSchema = new Schema({
     },
     YearRelease:
         {
-            type: Date,
+            type: Number,
             required: true,
         },
     genre: {type: String,
